@@ -31,14 +31,19 @@ RUN set -x \
     && mkdir -p ${KAFKA_HOME} /data /logs \
     && tar -xzf ${KAFKA_RELEASE_ARCHIVE} -C ${KAFKA_HOME} --strip-components=1 \
     && rm -r "$GNUPGHOME" kafka_* \
-    && apk del .build-deps \
-    && adduser -D -h ${KAFKA_HOME} kafka kafka \
-    && chown -R kafka:kafka ${KAFKA_HOME}
+    && apk del .build-deps
+
+ADD config ${KAFKA_HOME}/config
+RUN adduser -D -h ${KAFKA_HOME} kafka kafka \
+    && chown -R kafka:kafka ${KAFKA_HOME} /data /logs
 
 WORKDIR ${KAFKA_HOME}
-VOLUME [ "/data", "/logs" ]
-
-EXPOSE ${KAFKA_PORT} ${JMX_PORT}
-
 ENV PATH ${KAFKA_HOME}/bin:${PATH}
 
+VOLUME [ "/data", "/logs" ]
+EXPOSE ${KAFKA_PORT} ${JMX_PORT}
+
+ADD start-kafka.sh /usr/local/bin/start-kafka.sh
+COPY docker-entrypoint.sh /
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["start-kafka.sh"]
