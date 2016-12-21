@@ -1,0 +1,23 @@
+version: '2'
+services:
+  zookeeper:
+    image: zookeeper
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  kafka:
+    build: .
+    entrypoint: ["/discovery.sh"]
+    command: ["start-kafka"]
+    ports:
+      - 9092
+      - 7203
+    environment:
+      ZOOKEEPER_IP: zookeeper
+      KAFKA_BROKER_ID: -1
+    links:
+      - zookeeper
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./discovery.sh:/discovery.sh
