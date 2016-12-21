@@ -43,7 +43,6 @@ ENV PATH ${KAFKA_HOME}/bin:${PATH}
 VOLUME [ "/data", "/logs" ]
 EXPOSE ${KAFKA_PORT} ${JMX_PORT}
 
-ADD start-kafka.sh /usr/local/bin/start-kafka.sh
 COPY docker-entrypoint.sh /
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["start-kafka.sh"]
+CMD ["start-kafka"]
