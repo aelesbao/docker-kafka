@@ -4,7 +4,7 @@
 # https://github.com/aelesbao/docker-kafka
 #
 
-FROM java:8-jre-alpine
+FROM openjdk:8-jre-alpine
 MAINTAINER Augusto Elesbão <augusto@dharma.ws>
 
 ARG BUILD_DATE
