@@ -15,8 +15,8 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.schema-version="1.0.0-rc1"
 
-ENV SCALA_VERSION="2.11" \
-    KAFKA_VERSION="0.10.1.1" \
+ENV SCALA_VERSION="2.12" \
+    KAFKA_VERSION="0.10.2.0" \
     KAFKA_HOME=/kafka \
     KAFKA_PORT=9092 \
     JMX_PORT=7203
@@ -34,7 +34,7 @@ RUN set -x \
     && export KAFKA_RELEASE_ARCHIVE=kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz \
     && wget -O ${KAFKA_RELEASE_ARCHIVE} "https://archive.apache.org/dist/kafka/${KAFKA_VERSION}/${KAFKA_RELEASE_ARCHIVE}" \
     && wget -O ${KAFKA_RELEASE_ARCHIVE}.asc "https://archive.apache.org/dist/kafka/${KAFKA_VERSION}/${KAFKA_RELEASE_ARCHIVE}.asc" \
-    && gpg --keyserver hkps.pool.sks-keyservers.net --recv-keys 3B417B9B \
+    && gpg --keyserver hkps.pool.sks-keyservers.net --recv-keys DDAA34525234D94F \
     && gpg --batch --verify ${KAFKA_RELEASE_ARCHIVE}.asc ${KAFKA_RELEASE_ARCHIVE} \
     && mkdir -p ${KAFKA_HOME} /data /logs \
     && tar -xzf ${KAFKA_RELEASE_ARCHIVE} -C ${KAFKA_HOME} --strip-components=1 \
