@@ -15,6 +15,11 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.schema-version="1.0.0-rc1"
 
+# Install run dependencies
+RUN apk add --no-cache --virtual .run-deps \
+      bash \
+      su-exec
+
 ENV SCALA_VERSION="2.12" \
     KAFKA_VERSION="0.10.2.0" \
     KAFKA_HOME=/kafka \
@@ -22,11 +27,7 @@ ENV SCALA_VERSION="2.12" \
     JMX_PORT=7203
 
 # Install Kafka
-RUN set -x \
-    && apk add --no-cache --virtual .run-deps \
-      bash \
-      su-exec \
-    && apk add --no-cache --virtual .build-deps \
+RUN apk add --no-cache --virtual .build-deps \
       tar \
       gnupg \
       openssl \
