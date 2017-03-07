@@ -33,13 +33,14 @@ RUN apk add --no-cache --virtual .build-deps \
       openssl \
     && export GNUPGHOME="$(mktemp -d)" \
     && export KAFKA_RELEASE_ARCHIVE=kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz \
+    && cd /tmp \
     && wget -O ${KAFKA_RELEASE_ARCHIVE} "https://archive.apache.org/dist/kafka/${KAFKA_VERSION}/${KAFKA_RELEASE_ARCHIVE}" \
     && wget -O ${KAFKA_RELEASE_ARCHIVE}.asc "https://archive.apache.org/dist/kafka/${KAFKA_VERSION}/${KAFKA_RELEASE_ARCHIVE}.asc" \
     && gpg --keyserver hkps.pool.sks-keyservers.net --recv-keys DDAA34525234D94F \
     && gpg --batch --verify ${KAFKA_RELEASE_ARCHIVE}.asc ${KAFKA_RELEASE_ARCHIVE} \
     && mkdir -p ${KAFKA_HOME} /data /logs \
     && tar -xzf ${KAFKA_RELEASE_ARCHIVE} -C ${KAFKA_HOME} --strip-components=1 \
-    && rm -r "$GNUPGHOME" kafka_* \
+    && rm -rf /tmp/* \
     && apk del .build-deps
 
 ADD config ${KAFKA_HOME}/config
