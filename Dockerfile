@@ -21,7 +21,7 @@ RUN apk add --no-cache --virtual .run-deps \
       su-exec
 
 ENV SCALA_VERSION="2.12" \
-    KAFKA_VERSION="0.10.2.1" \
+    KAFKA_VERSION="0.11.0.0" \
     KAFKA_HOME=/kafka \
     KAFKA_PORT=9092 \
     JMX_PORT=7203
@@ -36,7 +36,7 @@ RUN apk add --no-cache --virtual .build-deps \
     && cd /tmp \
     && wget -O ${KAFKA_RELEASE_ARCHIVE} "https://archive.apache.org/dist/kafka/${KAFKA_VERSION}/${KAFKA_RELEASE_ARCHIVE}" \
     && wget -O ${KAFKA_RELEASE_ARCHIVE}.asc "https://archive.apache.org/dist/kafka/${KAFKA_VERSION}/${KAFKA_RELEASE_ARCHIVE}.asc" \
-    && gpg --keyserver hkps.pool.sks-keyservers.net --recv-keys D0A67B5A \
+    && gpg --keyserver hkps.pool.sks-keyservers.net --recv-keys AB55EF5C \
     && gpg --batch --verify ${KAFKA_RELEASE_ARCHIVE}.asc ${KAFKA_RELEASE_ARCHIVE} \
     && mkdir -p ${KAFKA_HOME} /data /logs \
     && tar -xzf ${KAFKA_RELEASE_ARCHIVE} -C ${KAFKA_HOME} --strip-components=1 \
